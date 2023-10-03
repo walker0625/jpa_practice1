@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpashop?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: qwe123!@#
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect # h2가 아니라 mysql을 사용하는 경우 필수설정으로 필수
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true # system.out에 찍는 log
+        format_sql: true
+
+
+logging:
+  level:
+    org.hibernate.sql : debug # log로 남는 정보
+    org.hibernate.type : trace
