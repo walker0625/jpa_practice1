@@ -1,0 +1,22 @@
+# 아래 내용이 아예 없어도 springboot는 설정이 없으면
+# memory db(h2 의존성이 있는 경우)를 활용하여 test 동작
+
+spring:
+  datasource:
+      url: jdbc:h2:mem:test
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true # system.out에 찍는 log
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.sql : debug # log로 남는 정보
+    org.hibernate.type : trace
