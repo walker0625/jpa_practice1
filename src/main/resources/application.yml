@@ -6,12 +6,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect # h2가 아니라 mysql을 사용하는 경우 필수설정으로 필수
+    database-platform: org.hibernate.dialect.MySQL8Dialect # h2가 아니라 mysql을 사용하는 경우 필수설정으로 필요
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
-        show_sql: true # system.out에 찍는 log
+    #    show_sql: true # system.out에 찍는 log
         format_sql: true
 
 logging:

@@ -36,4 +36,10 @@ public class MemberService {
         return memberRepository.find(id);
     }
 
+    // query와 command(update)를 분리하기 위해서 void로 마무리
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.find(id);
+        member.setName(name); // 변경감지를 통한 update
+    }
 }
