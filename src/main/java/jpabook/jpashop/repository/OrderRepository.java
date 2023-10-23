@@ -75,4 +75,14 @@ public class OrderRepository {
                                      "join fetch o.delivery d", Order.class).getResultList();
     }
 
+    public List<Order> findAllWithItem() {
+        // 일대다(1:N)를 join하는 경우
+        // 1. paging이 불가해짐(query에 limit/offset이 적용되지 않음 > order 기준이 아니라 불어난 row 기준으로 application memory에 다 올리고 시도(OOM 위험))
+        // 2. 중복 데이터가 생김(distinct로 해결)
+        return em.createQuery("select distinct o from Order o" +
+                                      " join fetch o.member m" +
+                                      " join fetch o.delivery d" +
+                                      " join fetch o.orderItems oi" +
+                                      " join fetch oi.item i", Order.class).getResultList();
+    }
 }
