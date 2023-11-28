@@ -7,6 +7,7 @@ import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.repository.SimpleOrderQueryDto;
+import jpabook.jpashop.repository.order.query.OrderFlatDto;
 import jpabook.jpashop.repository.order.query.OrderQueryDto;
 import jpabook.jpashop.repository.order.query.OrderQueryRepository;
 import lombok.Data;
@@ -73,6 +74,13 @@ public class OrderApiController {
     @GetMapping("/api/v5/orders")
     public List<OrderQueryDto> ordersV5() {
         return orderQueryRepository.findAllOptimizationDto();
+    }
+
+    @GetMapping("/api/v6/orders")
+    public List<OrderFlatDto> ordersV6() {
+        // order 기준의 페이징은 불가한 data(orderItem 기준으로 중복 order가 발생)
+        // 강의 예제 코드에서는 OrderFlatDto를 OrderQueryDto로 변환하기 위해 stream으로 정리
+        return orderQueryRepository.findAllFlatDto();
     }
 
     @Data
