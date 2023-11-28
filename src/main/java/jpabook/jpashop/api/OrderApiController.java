@@ -58,6 +58,10 @@ public class OrderApiController {
                .collect(toList());
     }
 
+    // 가장 권장하는 방식(1순위) Entity 조회 후 DTO 변환(성능 최적화/단순한 Code 유지 가능)
+    // 1. ToOne 관계는 fetch join 2. ToMany 관계는 BatchSize로 한꺼번에 In 절로 가져옴
+    // 2순위 : DTO 조회, 3순위 : Native SQL
+    // 위의 방식으로도 해결이 안되면 cache(redis, local memory : entity를 dto로 변환해서! - 1차 캐시와 충돌 가능)를 고려
     @GetMapping("/api/v3.1/orders")
     public List<OrderDto> orderV3_page(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                        @RequestParam(value = "limit", defaultValue = "100") int limit) {
@@ -66,19 +70,23 @@ public class OrderApiController {
                 .collect(toList());
     }
 
+    /* 아래는 DTO 직접 조회 방식*/
+
+    // 가독성이 좋고, 단건 조회시 유용(1 + n)
     @GetMapping("/api/v4/orders")
     public List<OrderQueryDto> ordersV4() {
         return orderQueryRepository.findOrderQueryDtos();
     }
 
+    // in 절 활용으로, 복수건 조회시 유용(1 + 1) - DTO 방식에서는 가장 권장됨
     @GetMapping("/api/v5/orders")
     public List<OrderQueryDto> ordersV5() {
         return orderQueryRepository.findAllOptimizationDto();
     }
 
+    // order 기준의 페이징은 불가 data(orderItem 기준으로 중복 order가 발생)
     @GetMapping("/api/v6/orders")
     public List<OrderFlatDto> ordersV6() {
-        // order 기준의 페이징은 불가한 data(orderItem 기준으로 중복 order가 발생)
         // 강의 예제 코드에서는 OrderFlatDto를 OrderQueryDto로 변환하기 위해 stream으로 정리
         return orderQueryRepository.findAllFlatDto();
     }
