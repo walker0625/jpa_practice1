@@ -14,3 +14,7 @@ spring:
         format_sql: true
         show_sql: true # system.out에 찍는 log
         default_batch_fetch_size: 100
+    # open-in-view: false
+    # transaction 내에서만 1차 캐시를 사용하는 옵션
+    # 성능 향상 목적 - 유연한 connection 확보 : 트래픽이 많은 system / admin과 같은 system은 설정 x(기본값 true)
+    # false로 할 경우 : 1. 지연 로딩도 transaction 내에서만 해야 함(DomainQueryService와 같은 Transaction 별도 서비스를 분리)
